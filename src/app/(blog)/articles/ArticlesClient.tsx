@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { CreatePostForm } from '@/features/posts/CreatePostForm';
 import { PostsList } from '@/features/posts/PostsList';
 import { Post } from '@/types/postsTypes';
+import useToggle from '@/hooks/useToggle';
 
 type Props = {};
 
 const ArticlesClient: React.FC<Props> = () => {
    const [posts, setPosts] = useState<Post[]>([]);
-   const [showForm, setShowForm] = useState(false);
-
-   const toggleForm = () => setShowForm(!showForm);
+   const [showForm, toggleForm] = useToggle(false);
 
    const createPost = async (title: string, content: string, imageUrl: string) => {
       try {
