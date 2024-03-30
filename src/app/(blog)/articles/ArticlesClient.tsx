@@ -4,11 +4,6 @@ import { CreatePostForm } from '@/features/posts/CreatePostForm';
 import { PostsList } from '@/features/posts/PostsList';
 import { Post } from '@/types/postsTypes';
 
-// Mock function to simulate post creation
-const mockCreatePost = (title: string, content: string, imageUrl: string) => {
-   console.log({ title, content, imageUrl });
-};
-
 type Props = {};
 
 const ArticlesClient: React.FC<Props> = () => {
@@ -16,6 +11,27 @@ const ArticlesClient: React.FC<Props> = () => {
    const [showForm, setShowForm] = useState(false);
 
    const toggleForm = () => setShowForm(!showForm);
+
+   const createPost = async (title: string, content: string, imageUrl: string) => {
+      try {
+         const response = await fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, content, imageUrl }),
+         });
+
+         if (!response.ok) {
+            throw new Error('Failed to create post');
+         }
+
+         const newPost: Post = await response.json();
+         setPosts((currentPosts) => [newPost, ...currentPosts]);
+      } catch (error) {
+         console.error('Error creating post:', error);
+      }
+   };
 
    useEffect(() => {
       // Function to fetch posts
@@ -44,7 +60,7 @@ const ArticlesClient: React.FC<Props> = () => {
             {showForm ? 'Hide Form' : 'Create New Post'}
          </button>
 
-         {showForm && <CreatePostForm onSubmit={mockCreatePost} className='my-5' />}
+         {showForm && <CreatePostForm onSubmit={createPost} className='my-5' />}
 
          <PostsList posts={posts} />
       </div>

@@ -1,21 +1,19 @@
 import { Post } from '@/types/postsTypes';
+import { PostCard } from '../PostCard';
 
 interface PostsListProps {
    posts: Post[];
 }
 
-export const PostsList = ({ posts }: PostsListProps) => {
+export const PostsList: React.FC<PostsListProps> = ({ posts }) => {
    return (
-      <div>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
          {posts.length > 0 ? (
             posts.map((post) => (
-               <article key={post.id} className='mb-4 p-4 border border-gray-200 rounded'>
-                  <h2 className='text-lg font-bold'>{post.title}</h2>
-                  <p className='text-gray-700'>{post.content}</p>
-               </article>
+               <PostCard key={post.id} title={post.title} content={post.content} imageUrl={post.imageUrl} />
             ))
          ) : (
-            <p>No posts found.</p>
+            <p className='text-center text-gray-500 col-span-full'>No posts found.</p>
          )}
       </div>
    );
