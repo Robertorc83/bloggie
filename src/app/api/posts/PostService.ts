@@ -6,10 +6,9 @@ class PostService {
       return await postRepository.findAll();
    }
 
-   async getPostById(id: string) {
-      const postId = parseInt(id, 10);
-      if (!isNaN(postId)) {
-         return await postRepository.findById(postId);
+   async getPostById(id: number) {
+      if (!isNaN(id)) {
+         return await postRepository.findById(id);
       } else {
          throw new Error('Invalid post ID');
       }
