@@ -1,11 +1,7 @@
-import React from 'react'
+import ArticlesClient from './ArticlesClient';
 
-type Props = {}
+const Page = () => {
+   return <ArticlesClient />;
+};
 
-function page({}: Props) {
-  return (
-    <div>page</div>
-  )
-}
-
-export default page
+export default Page;
